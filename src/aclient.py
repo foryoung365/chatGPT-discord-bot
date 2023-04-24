@@ -38,14 +38,13 @@ class aclient(discord.Client):
         self.bard_session_id = os.getenv("BARD_SESSION_ID")
         self.chat_model = os.getenv("CHAT_MODEL")
         self.chatbot = self.get_chatbot_model()
-        self.proxy=os.getenv("HTTP_PROXY")
 
 
     def get_chatbot_model(self, prompt=prompt) -> Union[AsyncChatbot, Chatbot]:
         if self.chat_model == "UNOFFICIAL":
             return AsyncChatbot(config={"email": self.openAI_email, "password": self.openAI_password, "access_token": self.chatgpt_access_token, "model": self.openAI_gpt_engine, "paid": self.chatgpt_paid})
         elif self.chat_model == "OFFICIAL":
-                return Chatbot(api_key=self.openAI_API_key, engine=self.openAI_gpt_engine, system_prompt=prompt, proxy=os.getenv("HTTP_PROXY"))
+                return Chatbot(api_key=self.openAI_API_key, engine=self.openAI_gpt_engine, system_prompt=prompt)
         elif self.chat_model == "Bard":
             return BardChatbot(session_id=self.bard_session_id)
         elif self.chat_model == "Bing":
